@@ -1,0 +1,31 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'  # or 'ubuntu-latest' for Linux
+
+steps:
+# Step 1: Install Java
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'  # ReadyAPI TestEngine requires Java 8 or higher
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
+# Step 2: Download and Install ReadyAPI TestEngine
+- script: |
+    curl -O https://dl.eviware.com/ready-api/testengine/3.0.0/ReadyAPI-TestEngine-3.0.0-linux-bin.zip
+    unzip ReadyAPI-TestEngine-3.0.0-linux-bin.zip -d ReadyAPI-TestEngine
+  displayName: 'Download and Install ReadyAPI TestEngine'
+
+# Step 3: Run ReadyAPI Tests
+- script: |
+    ./ReadyAPI-TestEngine/bin/testengine.sh -f $(Build.SourcesDirectory)/your-project.xml -r -RJUnit-Style -FXML
+  displayName: 'Run ReadyAPI Tests'
+
+# Step 4: Publish Test Results
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    failTaskOnFailedTests: true
