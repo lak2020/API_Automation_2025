@@ -4,7 +4,7 @@ trigger:
       - main  # Trigger on commits to the 'main' branch
 
 pool:
-  vmImage: 'windows-latest'  # Use Windows agent for your ReadyAPI tests
+  name: 'Github_ReadyAPI_Pool1'  # Use your custom pool
 
 steps:
   - checkout: self  # Checkout your code
