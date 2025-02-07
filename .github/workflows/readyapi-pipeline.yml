@@ -4,7 +4,7 @@ trigger:
       - main  # Trigger on commits to the 'main' branch
 
 pool:
-  vmImage: 'windows-latest'  # Use Windows agent (ReadyAPI CLI works best on Windows)
+  vmImage: 'windows-latest'  # Use Windows agent for your ReadyAPI tests
 
 steps:
   - checkout: self  # Checkout your code
@@ -12,7 +12,7 @@ steps:
   # Install Java (required for ReadyAPI CLI)
   - task: JavaToolInstaller@0
     inputs:
-      versionSpec: '11'  # Use Java 11
+      versionSpec: '11'
       jdkArchitectureOption: 'x64'
 
   # Download and install ReadyAPI CLI
