@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - main  # Trigger on main branch commits
+      - main  # Trigger on commits to the 'main' branch
 
 pool:
   vmImage: 'windows-latest'  # Use Windows agent (ReadyAPI CLI works best on Windows)
@@ -25,4 +25,12 @@ steps:
   # Run ReadyAPI tests using the XML project file
   - script: |
       echo "Running ReadyAPI tests..."
-      ReadyAPI-CLI/bin/testrunner.bat -f ./test-results -R JUnitExport ./REST Project 1-ready
+      ReadyAPI-CLI/bin/testrunner.bat -f ./test-results -R JUnitExport ./REST Project 1-readyapi-project.xml
+    displayName: 'Run ReadyAPI Tests'
+
+  # Publish test results (optional)
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'test-results/**/*.xml'
+    condition: always()  # Publish even if tests fail
