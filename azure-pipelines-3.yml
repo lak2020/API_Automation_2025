@@ -4,8 +4,7 @@ trigger:
       - master  # Runs pipeline on push to master
 
 pool:
-  name: Default
-  vmImage: 'windows-latest'  # Uses Windows since ReadyAPI GUI is Windows-based
+  name: Default  # Keeping the specified agent pool
 
 steps:
   - checkout: self  # Clones the repository
@@ -19,7 +18,7 @@ steps:
         $projectPath = "$(Build.SourcesDirectory)\REST Project 1-readyapi-project.xml"
         $reportPath = "$(Build.ArtifactStagingDirectory)\reports"
 
-        & "$readyApiPath" -r -a -j -f "$reportPath" -RJUnit-Style -E "Default environment" "$projectPath"
+        & "$readyApiPath" -r -a -j -f "$reportPath" -RJUnit -E "Default environment" "$projectPath"
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Test Reports'
