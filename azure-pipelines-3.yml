@@ -4,6 +4,7 @@ trigger:
       - master  # Runs pipeline on push to master
 
 pool:
+  name: Default
   vmImage: 'windows-latest'  # Uses Windows since ReadyAPI GUI is Windows-based
 
 steps:
